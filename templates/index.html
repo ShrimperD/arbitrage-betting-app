@@ -75,13 +75,10 @@
     </style>
     <script>
         function calculateBetData(input, homeOdds, awayOdds, bet2Id, totalBetId, profitId) {
-            let bet1 = parseFloat(input.value) || 50;
-            if (homeOdds <= 0 || awayOdds <= 0) {
-                return;
-            }
+            let bet1 = parseFloat(input.value) || 50; // Default to $50
             let bet2 = (bet1 * homeOdds) / awayOdds;
             let totalBet = bet1 + bet2;
-            let totalPayout = (bet1 * homeOdds) > (bet2 * awayOdds) ? (bet1 * homeOdds) : (bet2 * awayOdds);
+            let totalPayout = Math.max(bet1 * homeOdds, bet2 * awayOdds);
             let profit = totalPayout - totalBet;
 
             document.getElementById(bet2Id).value = bet2.toFixed(2);
@@ -138,7 +135,7 @@
                 <td>{{ aof.away_odds }} ({{ aof.away_bookmaker }})</td>
                 <td><strong style="color: green;">{{ aof.arb_percentage }}%</strong></td>
                 <td>
-                    <input type="number" class="bet-input" value="{{ aof.bet1 }}" 
+                    <input type="number" class="bet-input" value="50" 
                            oninput="calculateBetData(this, {{ aof.home_odds }}, {{ aof.away_odds }}, 'bet2-{{ loop.index }}', 'totalBet-{{ loop.index }}', 'profit-{{ loop.index }}')">
                 </td>
                 <td><input type="number" class="bet-input" id="bet2-{{ loop.index }}" value="{{ aof.bet2 }}" readonly></td>
