@@ -83,8 +83,10 @@ def fetch_aofs(bet_amount=50.00):
                     "guaranteed_profit": profit,
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
+        # ✅ Filter out Arb% < 5% and sort from High to Low
+aof_list = [aof for aof in aof_list if aof["arb_percentage"] >= 5]
+return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)
 
-        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
     else:
         return []
 
