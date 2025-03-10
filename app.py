@@ -16,12 +16,16 @@ params = {
 
 placed_bets = {}
 
+from pytz import timezone, utc
+
 def format_event_date(date_str):
     try:
         event_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
-        return event_time.strftime("%Y-%m-%d %I:%M %p UTC")
+        event_time = event_time.astimezone(timezone("America/Chicago"))  # Convert to Central Time
+        return event_time.strftime("%Y-%m-%d %I:%M %p CT")  # Show as Central Time
     except:
         return "Unknown Date"
+
 
 # ✅ Last Working Version of Total Profit Calculation
 def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
