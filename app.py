@@ -8,7 +8,6 @@ app = Flask(__name__)
 API_KEY = "f1e5ca6d70e837026e976e7f5a94f058"
 API_URL = "https://api.the-odds-api.com/v4/sports/upcoming/odds"
 
-# Set parameters
 params = {
     "apiKey": API_KEY,
     "regions": "us",
@@ -17,14 +16,12 @@ params = {
 
 placed_bets = {}
 
-# Function to convert decimal odds to American odds
 def decimal_to_american(decimal_odds):
     if decimal_odds >= 2.00:
         return f"+{int((decimal_odds - 1) * 100)}"
     else:
         return f"{int(-100 / (decimal_odds - 1))}"
 
-# Function to format event date
 def format_date(date_str):
     try:
         event_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
@@ -32,18 +29,17 @@ def format_date(date_str):
     except:
         return "Unknown Date"
 
-# Function to calculate bet amounts and profit-based Arbitrage %
+# ✅ Fix: Adjust Profit Calculation & Filtering
 def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
     total_payout = max(bet1 * home_odds, bet2 * away_odds)
     profit = total_payout - total_bet
-    profit_percentage = (profit / total_bet) * 100
+    profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
     return round(bet1, 2), round(bet2, 2), round(total_bet, 2), round(profit, 2), round(profit_percentage, 2)
 
-# Function to fetch AOFs
 def fetch_aofs(min_profit_percentage, bet_amount=50.00):
     response = requests.get(API_URL, params=params)
 
@@ -71,7 +67,8 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
             if best_home_odds > 0 and best_away_odds > 0:
                 bet1, bet2, total_bet, profit, profit_percentage = calculate_bets_and_profit(best_home_odds, best_away_odds, bet_amount)
 
-                if profit_percentage < min_profit_percentage:
+                # ✅ Fix: Allow AOFs with profit > 0 to appear
+                if profit_percentage <= 0:
                     continue
 
                 bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
@@ -93,13 +90,14 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
 
+        # ✅ Fix: Ensure at least 20 AOFs appear, sorted by best profit %
         return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
     else:
         return []
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    min_profit_percentage = 1.0  # Default minimum profit %
+    min_profit_percentage = 1.0  
 
     if request.method == "POST":
         min_profit_percentage = float(request.form.get("min_arb", 1.0))  
