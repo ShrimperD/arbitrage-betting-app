@@ -16,6 +16,15 @@ params = {
 
 placed_bets = {}
 
+# Convert American odds to decimal
+def american_to_decimal(american_odds):
+    odds = float(american_odds)
+    if odds > 0:
+        return (odds / 100) + 1
+    else:
+        return (100 / abs(odds)) + 1
+
+# Convert decimal odds to American for display
 def decimal_to_american(decimal_odds):
     if decimal_odds >= 2.00:
         return f"+{int((decimal_odds - 1) * 100)}"
@@ -29,12 +38,16 @@ def format_date(date_str):
     except:
         return "Unknown Date"
 
-# ✅ Corrected Total Profit Calculation
-def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
+# ✅ Corrected Profit Calculation using Decimal Odds
+def calculate_bets_and_profit(home_odds_american, away_odds_american, base_bet=50):
+    # Convert American odds to decimal for calculations
+    home_odds = american_to_decimal(home_odds_american)
+    away_odds = american_to_decimal(away_odds_american)
+
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
-    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Ensure profit isn't overstated
+    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Ensure correct profit
     profit = total_payout - total_bet
     profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
