@@ -24,22 +24,6 @@ def decimal_to_american(decimal_odds):
     else:
         return f"{int(-100 / (decimal_odds - 1))}"
 
-# Function to calculate arbitrage percentage
-def calculate_arbitrage(home_odds, away_odds):
-    inv_home = 1 / home_odds
-    inv_away = 1 / away_odds
-    arb_percent = (inv_home + inv_away) * 100
-    return round(arb_percent, 2)
-
-# Function to calculate bet amounts
-def calculate_bets(home_odds, away_odds, base_bet=50):
-    bet1 = base_bet
-    bet2 = (bet1 * home_odds) / away_odds
-    total_bet = bet1 + bet2
-    total_payout = max(bet1 * home_odds, bet2 * away_odds)
-    profit = total_payout - total_bet
-    return round(bet1, 2), round(bet2, 2), round(total_bet, 2), round(profit, 2)
-
 # Function to format event date
 def format_date(date_str):
     try:
@@ -48,8 +32,19 @@ def format_date(date_str):
     except:
         return "Unknown Date"
 
+# Function to calculate bet amounts and profit-based Arbitrage %
+def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
+    bet1 = base_bet
+    bet2 = (bet1 * home_odds) / away_odds
+    total_bet = bet1 + bet2
+    total_payout = max(bet1 * home_odds, bet2 * away_odds)
+    profit = total_payout - total_bet
+    profit_percentage = (profit / total_bet) * 100
+
+    return round(bet1, 2), round(bet2, 2), round(total_bet, 2), round(profit, 2), round(profit_percentage, 2)
+
 # Function to fetch AOFs
-def fetch_aofs(min_arb_percentage, bet_amount=50.00):
+def fetch_aofs(min_profit_percentage, bet_amount=50.00):
     response = requests.get(API_URL, params=params)
 
     if response.status_code == 200:
@@ -74,12 +69,10 @@ def fetch_aofs(min_arb_percentage, bet_amount=50.00):
                             best_away_bookmaker = bookmaker['title']
 
             if best_home_odds > 0 and best_away_odds > 0:
-                arb_percent = calculate_arbitrage(best_home_odds, best_away_odds)
+                bet1, bet2, total_bet, profit, profit_percentage = calculate_bets_and_profit(best_home_odds, best_away_odds, bet_amount)
 
-                if arb_percent < min_arb_percentage:
+                if profit_percentage < min_profit_percentage:
                     continue
-
-                bet1, bet2, total_bet, profit = calculate_bets(best_home_odds, best_away_odds, bet_amount)
 
                 bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
 
@@ -92,7 +85,7 @@ def fetch_aofs(min_arb_percentage, bet_amount=50.00):
                     "home_bookmaker": best_home_bookmaker,
                     "away_odds": decimal_to_american(best_away_odds),
                     "away_bookmaker": best_away_bookmaker,
-                    "arb_percentage": arb_percent,
+                    "arb_percentage": profit_percentage,
                     "bet1": bet1,
                     "bet2": bet2,
                     "total_investment": total_bet,
@@ -100,23 +93,23 @@ def fetch_aofs(min_arb_percentage, bet_amount=50.00):
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
 
-        return aof_list
+        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
     else:
         return []
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    min_arb_percentage = 5.0  # Default filter
+    min_profit_percentage = 1.0  # Default minimum profit %
 
     if request.method == "POST":
-        min_arb_percentage = float(request.form.get("min_arb", 5.0))  
+        min_profit_percentage = float(request.form.get("min_arb", 1.0))  
 
-    aofs = fetch_aofs(min_arb_percentage)
-    return render_template("index.html", aofs=aofs, min_arb=min_arb_percentage)
+    aofs = fetch_aofs(min_profit_percentage)
+    return render_template("index.html", aofs=aofs, min_arb=min_profit_percentage)
 
-@app.route("/mark_bet/<bet_key>", methods=["POST"])
-def mark_bet(bet_key):
-    placed_bets[bet_key] = "BET ON"
+@app.route("/mark_bet/<bet_type>/<bet_key>", methods=["POST"])
+def mark_bet(bet_type, bet_key):
+    placed_bets[bet_key] = f"BET PLACED BY {bet_type.upper()}"
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
