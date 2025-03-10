@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrage Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .bet-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .bet-button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #333;
+            color: #fff;
+        }
+        .bet-input {
+            width: 80px;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function calculateBetData(input, homeOdds, awayOdds, bet2Id, totalBetId, profitId, guaranteedProfit) {
+            let bet1 = parseFloat(input.value) || 50;
+            let bet2 = (bet1 * homeOdds) / awayOdds;
+            let totalBet = bet1 + bet2;
+            
+            document.getElementById(bet2Id).value = bet2.toFixed(2);
+            document.getElementById(totalBetId).value = totalBet.toFixed(2);
+            document.getElementById(profitId).value = guaranteedProfit.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+
+    <h1>🔎 Arbitrage Betting Opportunities</h1>
+
+    <!-- Betting Site Buttons -->
+    <div class="button-container">
+        <a href="https://www.draftkings.com" target="_blank" class="bet-button">DraftKings</a>
+        <a href="https://sportsbook.fanduel.com/" target="_blank" class="bet-button">FanDuel</a>
+
+        <a href="https://www.betmgm.com" target="_blank" class="bet-button">BetMGM</a>
+        <a href="https://www.caesars.com/sportsbook" target="_blank" class="bet-button">Caesars</a>
+        <a href="https://www.betonline.ag" target="_blank" class="bet-button">BetOnline</a>
+        <a href="https://www.lowvig.ag" target="_blank" class="bet-button">LowVig.ag</a>
+        <a href="https://www.betrivers.com" target="_blank" class="bet-button">BetRivers</a>
+        <a href="https://www.mybookie.ag" target="_blank" class="bet-button">MyBookie.ag</a>
+        <a href="https://www.bovada.lv" target="_blank" class="bet-button">Bovada</a>
+    </div>
+
+    <form method="POST">
+        <label><strong>Minimum Arbitrage Percentage:</strong></label>
+        <input type="number" name="min_arb" value="{{ min_arb }}" step="0.1">
+        <button type="submit">🔄 Refresh</button>
+    </form>
+
+    <br>
+
+    {% if aofs %}
+        <table>
+            <tr>
+                <th>🏆 Match</th>
+                <th>📅 Date</th>
+                <th>💰 Home Odds</th>
+                <th>💰 Away Odds</th>
+                <th>📊 Arb %</th>
+                <th>💵 Bet 1</th>
+                <th>💵 Bet 2</th>
+                <th>🏦 Total Bet</th>
+                <th>💸 Total Profit</th>
+                <th>✅ Bet Status</th>
+            </tr>
+            {% for aof in aofs %}
+            <tr>
+                <td>{{ aof.match }}</td>
+                <td>{{ aof.event_date }}</td>
+                <td>{{ aof.home_odds }} ({{ aof.home_bookmaker }})</td>
+                <td>{{ aof.away_odds }} ({{ aof.away_bookmaker }})</td>
+                <td><strong style="color: green;">{{ aof.arb_percentage }}%</strong></td>
+                <td>
+                    <input type="number" class="bet-input" value="{{ aof.bet1 }}" 
+                           oninput="calculateBetData(this, {{ aof.home_odds }}, {{ aof.away_odds }}, 'bet2-{{ loop.index }}', 'totalBet-{{ loop.index }}', 'profit-{{ loop.index }}', {{ aof.guaranteed_profit }})">
+                </td>
+                <td><input type="number" class="bet-input" id="bet2-{{ loop.index }}" value="{{ aof.bet2 }}" readonly></td>
+                <td><input type="number" class="bet-input" id="totalBet-{{ loop.index }}" value="{{ aof.total_investment }}" readonly></td>
+                <td><input type="number" class="bet-input" id="profit-{{ loop.index }}" value="{{ aof.guaranteed_profit }}" readonly></td>
+                <td>
+                    {% if aof.bet_status == "BET ON" %}
+                        ✅ BET ON
+                    {% else %}
+                        <form action="/mark_bet/{{ aof.bet_key }}" method="POST">
+                            <button type="submit">✅ Mark as Placed</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No arbitrage opportunities found.</p>
+    {% endif %}
+
+</body>
+</html>

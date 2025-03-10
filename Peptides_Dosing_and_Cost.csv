@@ -1,0 +1,6 @@
+Peptide Name,Summary of Benefits,Recommended Dose (mg),MG/Vial,Dose (mg),Cost per MG ($),Cost per Dose ($),Cost per Vial ($)
+CJC-1295,Stimulates GH release; promotes fat loss,0.5,2,0.5,20,=E2*F2,=D2*F2
+Ipamorelin,Enhances GH; supports muscle growth,0.3,2,0.3,18,=E3*F3,=D3*F3
+GHRP-2,Increases GH; appetite stimulation,0.3,5,0.3,10,=E4*F4,=D4*F4
+Tesamorelin,Reduces visceral fat,2,10,2,50,=E5*F5,=D5*F5
+Thymosin Beta-4,Tissue regeneration; reduces inflammation,5,5,5,15,=E6*F6,=D6*F6

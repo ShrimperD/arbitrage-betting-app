@@ -1,0 +1,182 @@
+WindowLayoutEditor	BackBox	imagepath	;	
+WindowLayoutEditor.BackBox.topimage	;	0
+WindowLayoutEditor	MlAuthorizedSignature	left	;	658
+WindowLayoutEditor	MlAuthorizedSignature	top	;	295
+WindowLayoutEditor	MlAuthorizedSignature	invisible	;	False
+WindowLayoutEditor	MlAuthorizedSignature	MlAuthorizedSignature.TextFont	;	System
+WindowLayoutEditor	MlAuthorizedSignature	MlAuthorizedSignature.TextSize	;	12
+WindowLayoutEditor	MlAuthorizedSignature	MlAuthorizedSignature.Bold	;	False
+WindowLayoutEditor	MlAuthorizedSignature	MlAuthorizedSignature.Italic	;	False
+WindowLayoutEditor	MlAuthorizedSignature	MlAuthorizedSignature.Underline	;	False
+WindowLayoutEditor	MlMP	left	;	868
+WindowLayoutEditor	MlMP	top	;	275
+WindowLayoutEditor	MlMP	invisible	;	False
+WindowLayoutEditor	MlMP	MlMP.TextFont	;	zZxkcq
+WindowLayoutEditor	MlMP	MlMP.TextSize	;	20
+WindowLayoutEditor	MlMP	MlMP.Bold	;	False
+WindowLayoutEditor	MlMP	MlMP.Italic	;	False
+WindowLayoutEditor	MlMP	MlMP.Underline	;	False
+WindowLayoutEditor	LblDateFormat	left	;	748
+WindowLayoutEditor	LblDateFormat	top	;	102
+WindowLayoutEditor	LblDateFormat	invisible	;	True
+WindowLayoutEditor	LblDateFormat	LblDateFormat.TextFont	;	LucidaGrande
+WindowLayoutEditor	LblDateFormat	LblDateFormat.TextSize	;	12
+WindowLayoutEditor	LblDateFormat	LblDateFormat.Bold	;	False
+WindowLayoutEditor	LblDateFormat	LblDateFormat.Italic	;	False
+WindowLayoutEditor	LblDateFormat	LblDateFormat.Underline	;	False
+WindowLayoutEditor	MlPay	left	;	631
+WindowLayoutEditor	MlPay	top	;	131
+WindowLayoutEditor	MlPay	invisible	;	False
+WindowLayoutEditor	MlPay	MlPay.TextFont	;	System
+WindowLayoutEditor	MlPay	MlPay.TextSize	;	20
+WindowLayoutEditor	MlPay	MlPay.Bold	;	True
+WindowLayoutEditor	MlPay	MlPay.Italic	;	False
+WindowLayoutEditor	MlPay	MlPay.Underline	;	False
+WindowLayoutEditor	PicBoxDollar	left	;	660
+WindowLayoutEditor	PicBoxDollar	top	;	121
+WindowLayoutEditor	PicBoxDollar	width	;	219
+WindowLayoutEditor	PicBoxDollar	height	;	58
+WindowLayoutEditor	PicBoxDollar	invisible	;	True
+WindowLayoutEditor	PicBoxDollar	image	;	
+WindowLayoutEditor	PicBoxDollar.image	;	
+WindowLayoutEditor	LblDollar	left	;	669
+WindowLayoutEditor	LblDollar	top	;	134
+WindowLayoutEditor	LblDollar	invisible	;	False
+WindowLayoutEditor	LblDollar	LblDollar.TextFont	;	System
+WindowLayoutEditor	LblDollar	LblDollar.TextSize	;	20
+WindowLayoutEditor	LblDollar	LblDollar.Bold	;	True
+WindowLayoutEditor	LblDollar	LblDollar.Italic	;	False
+WindowLayoutEditor	LblDollar	LblDollar.Underline	;	False
+WindowLayoutEditor	TfAmount	left	;	688
+WindowLayoutEditor	TfAmount	top	;	129
+WindowLayoutEditor	TfAmount	invisible	;	False
+WindowLayoutEditor	TfAmount	textfont	;	
+WindowLayoutEditor	TfAmount	textsize	;	21
+WindowLayoutEditor	LblPayTo	left	;	29
+WindowLayoutEditor	LblPayTo	top	;	132
+WindowLayoutEditor	LblPayTo	invisible	;	False
+WindowLayoutEditor	LblPayTo	LblPayTo.TextFont	;	System
+WindowLayoutEditor	LblPayTo	LblPayTo.TextSize	;	18
+WindowLayoutEditor	LblPayTo	LblPayTo.Bold	;	True
+WindowLayoutEditor	LblPayTo	LblPayTo.Italic	;	False
+WindowLayoutEditor	LblPayTo	LblPayTo.Underline	;	False
+WindowLayoutEditor	MLExactly	left	;	28
+WindowLayoutEditor	MLExactly	top	;	174
+WindowLayoutEditor	MLExactly	invisible	;	False
+WindowLayoutEditor	MLExactly	MLExactly.TextFont	;	System
+WindowLayoutEditor	MLExactly	MLExactly.TextSize	;	18
+WindowLayoutEditor	MLExactly	MLExactly.Bold	;	False
+WindowLayoutEditor	MLExactly	MLExactly.Italic	;	False
+WindowLayoutEditor	MLExactly	MLExactly.Underline	;	False
+WindowLayoutEditor	LblOrder	left	;	28
+WindowLayoutEditor	LblOrder	top	;	229
+WindowLayoutEditor	LblOrder	invisible	;	True
+WindowLayoutEditor	LblOrder	LblOrder.TextFont	;	System
+WindowLayoutEditor	LblOrder	LblOrder.TextSize	;	12
+WindowLayoutEditor	LblOrder	LblOrder.Bold	;	False
+WindowLayoutEditor	LblOrder	LblOrder.Italic	;	False
+WindowLayoutEditor	LblOrder	LblOrder.Underline	;	False
+WindowLayoutEditor	LblFor	left	;	29
+WindowLayoutEditor	LblFor	top	;	275
+WindowLayoutEditor	LblFor	invisible	;	True
+WindowLayoutEditor	LblFor	LblFor.TextFont	;	System
+WindowLayoutEditor	LblFor	LblFor.TextSize	;	18
+WindowLayoutEditor	LblFor	LblFor.Bold	;	False
+WindowLayoutEditor	LblFor	LblFor.Italic	;	False
+WindowLayoutEditor	LblFor	LblFor.Underline	;	False
+WindowLayoutEditor	TfFor	left	;	39
+WindowLayoutEditor	TfFor	top	;	269
+WindowLayoutEditor	TfFor	invisible	;	False
+WindowLayoutEditor	TfFor	textfont	;	MS Serif
+WindowLayoutEditor	TfFor	textsize	;	11
+WindowLayoutEditor	TfPayee	left	;	98
+WindowLayoutEditor	TfPayee	top	;	132
+WindowLayoutEditor	TfPayee	invisible	;	False
+WindowLayoutEditor	TfPayee	textfont	;	
+WindowLayoutEditor	TfPayee	textsize	;	18
+WindowLayoutEditor	MovLineSignature	left	;	570
+WindowLayoutEditor	MovLineSignature	top	;	298
+WindowLayoutEditor	MovLineSignature	thick	;	1
+WindowLayoutEditor	MovLineSignature	invisible	;	False
+WindowLayoutEditor	PicBoxLogo	left	;	41
+WindowLayoutEditor	PicBoxLogo	top	;	25
+WindowLayoutEditor	PicBoxLogo	width	;	12
+WindowLayoutEditor	PicBoxLogo	height	;	78
+WindowLayoutEditor	PicBoxLogo	invisible	;	True
+WindowLayoutEditor	PicBoxLogo	image	;	
+WindowLayoutEditor	PicBoxLogo.image	;	
+WindowLayoutEditor	TfCheckNo	left	;	738
+WindowLayoutEditor	TfCheckNo	top	;	36
+WindowLayoutEditor	TfCheckNo	invisible	;	False
+WindowLayoutEditor	TfCheckNo	textfont	;	
+WindowLayoutEditor	TfCheckNo	textsize	;	18
+WindowLayoutEditor	LblLetterAmount	left	;	98
+WindowLayoutEditor	LblLetterAmount	top	;	177
+WindowLayoutEditor	LblLetterAmount	invisible	;	False
+WindowLayoutEditor	LblLetterAmount	LblLetterAmount.TextFont	;	System
+WindowLayoutEditor	LblLetterAmount	LblLetterAmount.TextSize	;	14
+WindowLayoutEditor	LblLetterAmount	LblLetterAmount.Bold	;	False
+WindowLayoutEditor	LblLetterAmount	LblLetterAmount.Italic	;	False
+WindowLayoutEditor	LblLetterAmount	LblLetterAmount.Underline	;	False
+WindowLayoutEditor	LblCheckNo	left	;	715
+WindowLayoutEditor	LblCheckNo	top	;	21
+WindowLayoutEditor	LblCheckNo	invisible	;	True
+WindowLayoutEditor	LblCheckNo	LblCheckNo.TextFont	;	System
+WindowLayoutEditor	LblCheckNo	LblCheckNo.TextSize	;	18
+WindowLayoutEditor	LblCheckNo	LblCheckNo.Bold	;	False
+WindowLayoutEditor	LblCheckNo	LblCheckNo.Italic	;	False
+WindowLayoutEditor	LblCheckNo	LblCheckNo.Underline	;	False
+WindowLayoutEditor	MLDate	left	;	685
+WindowLayoutEditor	MLDate	top	;	80
+WindowLayoutEditor	MLDate	invisible	;	True
+WindowLayoutEditor	MLDate	MLDate.TextFont	;	LucidaGrande
+WindowLayoutEditor	MLDate	MLDate.TextSize	;	18
+WindowLayoutEditor	MLDate	MLDate.Bold	;	False
+WindowLayoutEditor	MLDate	MLDate.Italic	;	False
+WindowLayoutEditor	MLDate	MLDate.Underline	;	False
+WindowLayoutEditor	TfDate	left	;	738
+WindowLayoutEditor	TfDate	top	;	69
+WindowLayoutEditor	TfDate	invisible	;	False
+WindowLayoutEditor	TfDate	textfont	;	
+WindowLayoutEditor	TfDate	textsize	;	18
+WindowLayoutEditor	TfPVoidAfter	left	;	637
+WindowLayoutEditor	TfPVoidAfter	top	;	196
+WindowLayoutEditor	TfPVoidAfter	width	;	192
+WindowLayoutEditor	TfPVoidAfter	invisible	;	False
+WindowLayoutEditor	TfPVoidAfter	textfont	;	Arial
+WindowLayoutEditor	TfPVoidAfter	textsize	;	12
+WindowLayoutEditor	TfPVoidAfter	text	;	{\rtf1\ansi\ansicpg1252{\fonttbl{\f0\fnil Arial;}}{\colortbl\red0\green0\blue0;}\uc0 \ql\f0\fs24 Exemption 447901111}
+WindowLayoutEditor	PicBxSignature-0	left	;	560
+WindowLayoutEditor	PicBxSignature-0	top	;	223
+WindowLayoutEditor	PicBxSignature-0	width	;	322
+WindowLayoutEditor	PicBxSignature-0	height	;	68
+WindowLayoutEditor	PicBxSignature-0.invisible	;	True
+WindowLayoutEditor.PicBxSignature-0.image	;	C:\Users\DUSTYB~1\AppData\Roaming\COMMAT~1.CHE\BLANKS~1.JPG
+WindowLayoutEditor	PicBxSignature-0	image	;	C:\Users\DUSTYB~1\AppData\Roaming\COMMAT~1.CHE\BLANKS~1.JPG
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_MICRLineBox1	left	;	182
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_MICRLineBox1	top	;	319
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_MICRLineBox1	invisible	;	False
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_MICRLineBox1	TfRoutingNo	;	520907065
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TfBxBankNo	left	;	394
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TfBxBankNo	top	;	209
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TfBxBankNo	invisible	;	True
+_wrapper_TfBxBankNo	;	{\rtf1\ansi\ansicpg1252{\fonttbl}{\colortbl}\uc0 }
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox1	left	;	79
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox1	top	;	17
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox1	invisible	;	False
+_wrapper_TextBox1	;	{\rtf1\ansi\ansicpg1252{\fonttbl{\f0\fnil Microsoft Sans Serif;}{\f1\fnil Segoe UI;}{\f2\fnil Arial;}}{\colortbl\red0\green0\blue0;}\uc0 \ql\f0\fs30 Dusty Brillhart\f1\fs54 \par \f2\fs30 P.O. Box 111\f1\fs54 \par \f2\fs30 Elkhart, Kansas [67950]}
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox2	left	;	480
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox2	top	;	5
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox2	invisible	;	False
+_wrapper_TextBox2	;	{\rtf1\ansi\ansicpg1252{\fonttbl{\f0\fnil Arial;}{\f1\fnil Segoe UI;}}{\colortbl\red0\green0\blue0;}\uc0 \qc\b\f0\fs42 UST\b0\f1\fs54 \par \f0\fs26 1500 Pennsylvania\f1\fs54 \par \f0\fs26 Avenue N.W.\f1\fs54 \par \f0\fs26 Washington, DC  20220}
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox3	left	;	176
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox3	top	;	186
+WindowLayoutEditor	_WindowLayoutEditor._wrapper_TextBox3	invisible	;	False
+_wrapper_TextBox3	;	{\rtf1\ansi\ansicpg1252{\fonttbl{\f0\fnil Arial;}{\f1\fnil Segoe UI;}}{\colortbl\red0\green0\blue0;}\uc0 \ql\f0\fs26 Acct# 112233445566\f1\fs54 \par \f0\fs26 Apply to Principal, Settlement and \f1\fs54 \par \f0\fs26 Closure\f1\fs54 \par }
+WindowLayoutEditor	PicBxSignature-2	left	;	294
+WindowLayoutEditor	PicBxSignature-2	top	;	37
+WindowLayoutEditor	PicBxSignature-2	width	;	230
+WindowLayoutEditor	PicBxSignature-2	height	;	72
+WindowLayoutEditor	PicBxSignature-2.invisible	;	False
+WindowLayoutEditor.PicBxSignature-2.image	;	C:\Users\DUSTYB~1\AppData\Roaming\COMMAT~1.CHE\CERTFU~1.PNG
+WindowLayoutEditor	PicBxSignature-2	image	;	C:\Users\DUSTYB~1\AppData\Roaming\COMMAT~1.CHE\CERTFU~1.PNG
