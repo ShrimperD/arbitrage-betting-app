@@ -29,18 +29,18 @@ def format_date(date_str):
     except:
         return "Unknown Date"
 
-# ✅ Fix: Accurate Profit Calculation
+# ✅ Corrected Total Profit Calculation
 def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
-    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Use minimum payout to avoid overestimation
+    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Ensure profit isn't overstated
     profit = total_payout - total_bet
     profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
     return round(bet1, 2), round(bet2, 2), round(total_bet, 2), round(profit, 2), round(profit_percentage, 2)
 
-def fetch_aofs(min_profit_percentage, bet_amount=50.00):
+def fetch_aofs(bet_amount=50.00):
     response = requests.get(API_URL, params=params)
 
     if response.status_code == 200:
@@ -67,9 +67,6 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
             if best_home_odds > 0 and best_away_odds > 0:
                 bet1, bet2, total_bet, profit, profit_percentage = calculate_bets_and_profit(best_home_odds, best_away_odds, bet_amount)
 
-                if profit_percentage <= 0:  # ✅ Fix: Ensure only positive profit bets are shown
-                    continue
-
                 bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
 
                 aof_list.append({
@@ -89,19 +86,15 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
 
-        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]  # ✅ Fix: Sorting by actual profit %
+        # ✅ Sort by highest profit percentage and show top 20 AOFs
+        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
     else:
         return []
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
-    min_profit_percentage = 1.0  
-
-    if request.method == "POST":
-        min_profit_percentage = float(request.form.get("min_arb", 1.0))  
-
-    aofs = fetch_aofs(min_profit_percentage)
-    return render_template("index.html", aofs=aofs, min_arb=min_profit_percentage)
+    aofs = fetch_aofs()
+    return render_template("index.html", aofs=aofs)
 
 @app.route("/mark_bet/<bet_type>/<bet_key>", methods=["POST"])
 def mark_bet(bet_type, bet_key):
