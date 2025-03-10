@@ -16,14 +16,6 @@ params = {
 
 placed_bets = {}
 
-# Convert American odds to decimal
-def american_to_decimal(american_odds):
-    odds = float(american_odds)
-    if odds > 0:
-        return (odds / 100) + 1
-    else:
-        return (100 / abs(odds)) + 1
-
 # Convert decimal odds to American for display
 def decimal_to_american(decimal_odds):
     if decimal_odds >= 2.00:
@@ -31,23 +23,19 @@ def decimal_to_american(decimal_odds):
     else:
         return f"{int(-100 / (decimal_odds - 1))}"
 
-def format_date(date_str):
+def format_event_date(date_str):
     try:
         event_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
         return event_time.strftime("%Y-%m-%d %I:%M %p UTC")
     except:
         return "Unknown Date"
 
-# ✅ Corrected Profit Calculation using Decimal Odds
-def calculate_bets_and_profit(home_odds_american, away_odds_american, base_bet=50):
-    # Convert American odds to decimal for calculations
-    home_odds = american_to_decimal(home_odds_american)
-    away_odds = american_to_decimal(away_odds_american)
-
+# ✅ Rolled Back & Fixed Profit Calculation
+def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
-    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Ensure correct profit
+    total_payout = min(bet1 * home_odds, bet2 * away_odds)
     profit = total_payout - total_bet
     profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
@@ -65,7 +53,7 @@ def fetch_aofs(bet_amount=50.00):
             best_away_odds = 0
             best_home_bookmaker = ""
             best_away_bookmaker = ""
-            event_date = format_date(game.get('commence_time', ''))
+            event_date = format_event_date(game.get('commence_time', ''))
 
             for bookmaker in game.get('bookmakers', []):
                 for market in bookmaker['markets']:
@@ -85,11 +73,11 @@ def fetch_aofs(bet_amount=50.00):
                 aof_list.append({
                     "bet_key": bet_key,
                     "match": f"{game['home_team']} vs {game['away_team']}",
-                    "sport": game['sport_title'],
+                    "sport": game['sport_title'],  # ✅ Added Sport Category
                     "event_date": event_date,
-                    "home_odds": decimal_to_american(best_home_odds),
+                    "home_odds": f"{decimal_to_american(best_home_odds)} ({round(best_home_odds, 2)})",
                     "home_bookmaker": best_home_bookmaker,
-                    "away_odds": decimal_to_american(best_away_odds),
+                    "away_odds": f"{decimal_to_american(best_away_odds)} ({round(best_away_odds, 2)})",
                     "away_bookmaker": best_away_bookmaker,
                     "arb_percentage": profit_percentage,
                     "bet1": bet1,
@@ -99,7 +87,6 @@ def fetch_aofs(bet_amount=50.00):
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
 
-        # ✅ Sort by highest profit percentage and show top 20 AOFs
         return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
     else:
         return []

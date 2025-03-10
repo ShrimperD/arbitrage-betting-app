@@ -33,7 +33,6 @@
         .bet-button:hover {
             background-color: #0056b3;
         }
-
         .refresh-button {
             background-color: #28a745;
             color: white;
@@ -111,7 +110,8 @@
         <table>
             <tr>
                 <th>🏆 Match</th>
-                <th>📅 Date</th>
+                <th>🎯 Sport</th>  <!-- ✅ New Column for Sport -->
+                <th>📅 Event Date</th>
                 <th>💰 Home Odds</th>
                 <th>💰 Away Odds</th>
                 <th>📊 Arb %</th>
@@ -124,7 +124,8 @@
             {% for aof in aofs %}
             <tr>
                 <td>{{ aof.match }}</td>
-                <td>{{ aof.event_date }}</td>
+                <td>{{ aof.sport }}</td> <!-- ✅ New Column for Sport -->
+                <td>{{ aof.event_date }}</td> 
                 <td>{{ aof.home_odds }} ({{ aof.home_bookmaker }})</td>
                 <td>{{ aof.away_odds }} ({{ aof.away_bookmaker }})</td>
                 <td><strong style="color: green;">{{ aof.arb_percentage }}%</strong></td>
