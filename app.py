@@ -29,12 +29,12 @@ def format_date(date_str):
     except:
         return "Unknown Date"
 
-# ✅ Fix: Adjust Profit Calculation & Filtering
+# ✅ Fix: Accurate Profit Calculation
 def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
-    total_payout = max(bet1 * home_odds, bet2 * away_odds)
+    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # Use minimum payout to avoid overestimation
     profit = total_payout - total_bet
     profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
@@ -67,8 +67,7 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
             if best_home_odds > 0 and best_away_odds > 0:
                 bet1, bet2, total_bet, profit, profit_percentage = calculate_bets_and_profit(best_home_odds, best_away_odds, bet_amount)
 
-                # ✅ Fix: Allow AOFs with profit > 0 to appear
-                if profit_percentage <= 0:
+                if profit_percentage <= 0:  # ✅ Fix: Ensure only positive profit bets are shown
                     continue
 
                 bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
@@ -90,8 +89,7 @@ def fetch_aofs(min_profit_percentage, bet_amount=50.00):
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
 
-        # ✅ Fix: Ensure at least 20 AOFs appear, sorted by best profit %
-        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]
+        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)[:20]  # ✅ Fix: Sorting by actual profit %
     else:
         return []
 
