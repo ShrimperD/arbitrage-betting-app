@@ -24,6 +24,22 @@ def decimal_to_american(decimal_odds):
     else:
         return f"{int(-100 / (decimal_odds - 1))}"
 
+# Function to calculate arbitrage percentage
+def calculate_arbitrage(home_odds, away_odds):
+    inv_home = 1 / home_odds
+    inv_away = 1 / away_odds
+    arb_percent = (inv_home + inv_away) * 100
+    return round(arb_percent, 2)
+
+# Function to calculate bet amounts
+def calculate_bets(home_odds, away_odds, base_bet=50):
+    bet1 = base_bet
+    bet2 = (bet1 * home_odds) / away_odds
+    total_bet = bet1 + bet2
+    total_payout = max(bet1 * home_odds, bet2 * away_odds)
+    profit = total_payout - total_bet
+    return round(bet1, 2), round(bet2, 2), round(total_bet, 2), round(profit, 2)
+
 # Function to format event date
 def format_date(date_str):
     try:
@@ -57,25 +73,32 @@ def fetch_aofs(min_arb_percentage, bet_amount=50.00):
                             best_away_odds = outcome['price']
                             best_away_bookmaker = bookmaker['title']
 
-            # Create a unique key for this bet
-            bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
+            if best_home_odds > 0 and best_away_odds > 0:
+                arb_percent = calculate_arbitrage(best_home_odds, best_away_odds)
 
-            # Convert odds to American format
-            american_home_odds = decimal_to_american(best_home_odds)
-            american_away_odds = decimal_to_american(best_away_odds)
+                if arb_percent < min_arb_percentage:
+                    continue
 
-            # Add AOF to list
-            aof_list.append({
-                "bet_key": bet_key,
-                "match": f"{game['home_team']} vs {game['away_team']}",
-                "sport": game['sport_title'],
-                "event_date": event_date,
-                "home_odds": american_home_odds,
-                "home_bookmaker": best_home_bookmaker,
-                "away_odds": american_away_odds,
-                "away_bookmaker": best_away_bookmaker,
-                "bet_status": placed_bets.get(bet_key, "Not Placed")
-            })
+                bet1, bet2, total_bet, profit = calculate_bets(best_home_odds, best_away_odds, bet_amount)
+
+                bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
+
+                aof_list.append({
+                    "bet_key": bet_key,
+                    "match": f"{game['home_team']} vs {game['away_team']}",
+                    "sport": game['sport_title'],
+                    "event_date": event_date,
+                    "home_odds": decimal_to_american(best_home_odds),
+                    "home_bookmaker": best_home_bookmaker,
+                    "away_odds": decimal_to_american(best_away_odds),
+                    "away_bookmaker": best_away_bookmaker,
+                    "arb_percentage": arb_percent,
+                    "bet1": bet1,
+                    "bet2": bet2,
+                    "total_investment": total_bet,
+                    "guaranteed_profit": profit,
+                    "bet_status": placed_bets.get(bet_key, "Not Placed")
+                })
 
         return aof_list
     else:
