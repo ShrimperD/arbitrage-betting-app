@@ -74,11 +74,24 @@
         }
     </style>
     <script>
+        // Convert American odds back to decimal for calculations
+        function americanToDecimal(americanOdds) {
+            let odds = parseFloat(americanOdds);
+            if (odds > 0) {
+                return (odds / 100) + 1;
+            } else {
+                return (100 / Math.abs(odds)) + 1;
+            }
+        }
+
         function calculateBetData(input, homeOdds, awayOdds, bet2Id, totalBetId, profitId) {
             let bet1 = parseFloat(input.value) || 50; // Default to $50
-            let bet2 = (bet1 * homeOdds) / awayOdds;
+            let decimalHomeOdds = americanToDecimal(homeOdds);
+            let decimalAwayOdds = americanToDecimal(awayOdds);
+
+            let bet2 = (bet1 * decimalHomeOdds) / decimalAwayOdds;
             let totalBet = bet1 + bet2;
-            let totalPayout = Math.max(bet1 * homeOdds, bet2 * awayOdds);
+            let totalPayout = Math.max(bet1 * decimalHomeOdds, bet2 * decimalAwayOdds);
             let profit = totalPayout - totalBet;
 
             document.getElementById(bet2Id).value = bet2.toFixed(2);
@@ -136,7 +149,7 @@
                 <td><strong style="color: green;">{{ aof.arb_percentage }}%</strong></td>
                 <td>
                     <input type="number" class="bet-input" value="50" 
-                           oninput="calculateBetData(this, {{ aof.home_odds }}, {{ aof.away_odds }}, 'bet2-{{ loop.index }}', 'totalBet-{{ loop.index }}', 'profit-{{ loop.index }}')">
+                           oninput="calculateBetData(this, '{{ aof.home_odds }}', '{{ aof.away_odds }}', 'bet2-{{ loop.index }}', 'totalBet-{{ loop.index }}', 'profit-{{ loop.index }}')">
                 </td>
                 <td><input type="number" class="bet-input" id="bet2-{{ loop.index }}" value="{{ aof.bet2 }}" readonly></td>
                 <td><input type="number" class="bet-input" id="totalBet-{{ loop.index }}" value="{{ aof.total_investment }}" readonly></td>
