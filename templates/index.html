@@ -22,13 +22,13 @@
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 10px;
             font-size: 14px;
             border-radius: 5px;
             text-decoration: none;
             display: inline-block;
-            width: 120px;
             text-align: center;
+            width: 130px;
         }
         .bet-button:hover {
             background-color: #0056b3;
@@ -53,19 +53,23 @@
             width: 80px;
             padding: 5px;
             text-align: center;
+            font-size: 14px;
         }
-        @media (max-width: 768px) {
-            th, td {
+        @media screen and (max-width: 768px) {
+            table {
+                width: 100%;
                 font-size: 12px;
-                padding: 6px;
             }
-            .bet-input {
-                width: 60px;
+            th, td {
+                padding: 5px;
             }
             .bet-button {
-                padding: 8px;
                 font-size: 12px;
-                width: 100px;
+                padding: 8px;
+                width: 110px;
+            }
+            .bet-input {
+                width: 70px;
             }
         }
     </style>
@@ -74,11 +78,11 @@
             let bet1 = parseFloat(input.value) || 50;
             let bet2 = (bet1 * homeOdds) / awayOdds;
             let totalBet = bet1 + bet2;
-            let guaranteedProfit = (totalBet * ((1 / homeOdds) + (1 / awayOdds)) - totalBet).toFixed(2);
+            let profit = (bet2 * awayOdds) - totalBet;
 
             document.getElementById(bet2Id).value = bet2.toFixed(2);
             document.getElementById(totalBetId).value = totalBet.toFixed(2);
-            document.getElementById(profitId).value = guaranteedProfit;
+            document.getElementById(profitId).value = profit.toFixed(2);
         }
     </script>
 </head>
@@ -99,6 +103,7 @@
         <a href="https://www.bovada.lv" target="_blank" class="bet-button">Bovada</a>
     </div>
 
+    <!-- Form to set Arbitrage % -->
     <form method="POST">
         <label><strong>Minimum Arbitrage Percentage:</strong></label>
         <input type="number" name="min_arb" value="{{ min_arb }}" step="0.1">
