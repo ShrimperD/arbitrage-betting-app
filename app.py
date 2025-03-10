@@ -11,11 +11,11 @@ API_URL = "https://api.the-odds-api.com/v4/sports/upcoming/odds"
 # Set parameters
 params = {
     "apiKey": API_KEY,
-    "regions": "us",  # Odds from US sportsbooks
-    "markets": "h2h",  # Moneyline odds
+    "regions": "us",
+    "markets": "h2h",
 }
 
-placed_bets = {}  # Track bets as "BET ON"
+placed_bets = {}
 
 # Function to convert decimal odds to American odds
 def decimal_to_american(decimal_odds):
