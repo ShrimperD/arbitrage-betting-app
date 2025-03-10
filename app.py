@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 from datetime import datetime
+from pytz import timezone
 
 app = Flask(__name__)
 
@@ -16,23 +17,21 @@ params = {
 
 placed_bets = {}
 
-from pytz import timezone, utc
-
+# Convert event time to Central Time (CT)
 def format_event_date(date_str):
     try:
         event_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
         event_time = event_time.astimezone(timezone("America/Chicago"))  # Convert to Central Time
-        return event_time.strftime("%Y-%m-%d %I:%M %p CT")  # Show as Central Time
+        return event_time.strftime("%Y-%m-%d %I:%M %p CT")  # Display as Central Time
     except:
         return "Unknown Date"
 
-
-# ✅ Last Working Version of Total Profit Calculation
+# ✅ Fix: Correct Indentation & Total Profit Calculation
 def calculate_bets_and_profit(home_odds, away_odds, base_bet=50):
     bet1 = base_bet
     bet2 = (bet1 * home_odds) / away_odds
     total_bet = bet1 + bet2
-    total_payout = min(bet1 * home_odds, bet2 * away_odds)  # ✅ Using minimum payout for profit calculation
+    total_payout = min(bet1 * home_odds, bet2 * away_odds)
     profit = total_payout - total_bet
     profit_percentage = (profit / total_bet) * 100 if total_bet > 0 else 0
 
@@ -65,6 +64,10 @@ def fetch_aofs(bet_amount=50.00):
             if best_home_odds > 0 and best_away_odds > 0:
                 bet1, bet2, total_bet, profit, profit_percentage = calculate_bets_and_profit(best_home_odds, best_away_odds, bet_amount)
 
+                # ✅ Filter out Arb% < 5%
+                if profit_percentage < 5:
+                    continue
+
                 bet_key = f"{game['home_team']} vs {game['away_team']} - {event_date}"
 
                 aof_list.append({
@@ -83,10 +86,8 @@ def fetch_aofs(bet_amount=50.00):
                     "guaranteed_profit": profit,
                     "bet_status": placed_bets.get(bet_key, "Not Placed")
                 })
-        # ✅ Filter out Arb% < 5% and sort from High to Low
-aof_list = [aof for aof in aof_list if aof["arb_percentage"] >= 5]
-return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)
 
+        return sorted(aof_list, key=lambda x: x["arb_percentage"], reverse=True)  # ✅ Sort from High to Low
     else:
         return []
 
