@@ -74,20 +74,15 @@
         }
     </style>
     <script>
-        // Convert American odds back to decimal for calculations
-        function americanToDecimal(americanOdds) {
-            let odds = parseFloat(americanOdds);
-            if (odds > 0) {
-                return (odds / 100) + 1;
-            } else {
-                return (100 / Math.abs(odds)) + 1;
-            }
-        }
+        // Auto-refresh every 30 seconds
+        setInterval(function() {
+            location.reload();
+        }, 30000);
 
         function calculateBetData(input, homeOdds, awayOdds, bet2Id, totalBetId, profitId) {
-            let bet1 = parseFloat(input.value) || 50; // Default to $50
-            let decimalHomeOdds = americanToDecimal(homeOdds);
-            let decimalAwayOdds = americanToDecimal(awayOdds);
+            let bet1 = parseFloat(input.value) || 50;
+            let decimalHomeOdds = parseFloat(homeOdds);
+            let decimalAwayOdds = parseFloat(awayOdds);
 
             let bet2 = (bet1 * decimalHomeOdds) / decimalAwayOdds;
             let totalBet = bet1 + bet2;
@@ -104,20 +99,6 @@
 
     <h1>🔎 Arbitrage Betting Opportunities</h1>
 
-    <!-- Betting Site Buttons -->
-    <div class="button-container">
-        <a href="https://www.draftkings.com" target="_blank" class="bet-button">DraftKings</a>
-        <a href="https://sportsbook.fanduel.com/" target="_blank" class="bet-button">FanDuel</a>
-        <a href="https://www.betmgm.com" target="_blank" class="bet-button">BetMGM</a>
-        <a href="https://www.caesars.com/sportsbook" target="_blank" class="bet-button">Caesars</a>
-        <a href="https://www.betonline.ag" target="_blank" class="bet-button">BetOnline</a>
-        <a href="https://www.lowvig.ag" target="_blank" class="bet-button">LowVig.ag</a>
-        <a href="https://www.betrivers.com" target="_blank" class="bet-button">BetRivers</a>
-        <a href="https://www.mybookie.ag" target="_blank" class="bet-button">MyBookie.ag</a>
-        <a href="https://www.bovada.lv" target="_blank" class="bet-button">Bovada</a>
-    </div>
-
-    <!-- Form to set Arbitrage % -->
     <form method="POST">
         <label><strong>Minimum Arbitrage Percentage:</strong></label>
         <input type="number" name="min_arb" value="{{ min_arb }}" step="0.1">
@@ -158,8 +139,11 @@
                     {% if aof.bet_status == "BET ON" %}
                         ✅ BET ON
                     {% else %}
-                        <form action="/mark_bet/{{ aof.bet_key }}" method="POST">
-                            <button type="submit">✅ Mark as Placed</button>
+                        <form action="/mark_bet/db/{{ aof.bet_key }}" method="POST">
+                            <button type="submit">✅ Bet Placed by DB</button>
+                        </form>
+                        <form action="/mark_bet/sb/{{ aof.bet_key }}" method="POST">
+                            <button type="submit">✅ Bet Placed by SB</button>
                         </form>
                     {% endif %}
                 </td>
